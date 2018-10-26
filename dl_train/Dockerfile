@@ -32,7 +32,7 @@ RUN pip3 --no-cache-dir -q install -i $DOUBAN_SOURCE  \
         seaborn==0.8.1 \
         simplejson==3.10.0 \
         requests==2.9.1 \
-        tensorflow-gpu==1.10 \
+        tensorflow-gpu==1.11 \
         Pillow==5.2.0 \
         tqdm==4.19.5 \
         tornado==4.5.3 \
