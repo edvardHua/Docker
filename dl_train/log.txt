@@ -1,0 +1,76 @@
+Sending build context to Docker daemon  5.134MB
+Step 1/18 : FROM tensorflow/tensorflow:latest-gpu
+ ---> f201325bfb23
+Step 2/18 : MAINTAINER zengzihua (edvard_hua@live.com)
+ ---> Using cache
+ ---> 3490a3eea477
+Step 3/18 : ENV DOUBAN_SOURCE="https://pypi.douban.com/simple"
+ ---> Using cache
+ ---> 30b65bad0211
+Step 4/18 : RUN apt-get update && apt-get install -y --no-install-recommends         build-essential         libcurl3-dev         libfreetype6-dev         libpng12-dev         libzmq3-dev         pkg-config         python3         python3-pip         zlib1g-dev         cython         > /dev/null         &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+ ---> Using cache
+ ---> 458957433d70
+Step 5/18 : RUN pip3 --no-cache-dir -q install -i $DOUBAN_SOURCE --upgrade pip setuptools
+ ---> Using cache
+ ---> 18c28d159f1f
+Step 6/18 : RUN pip3 --no-cache-dir -q install -i $DOUBAN_SOURCE          matplotlib==2.1.0         numpy==1.13.3         scipy==1.0.0         sklearn==0.0         pandas==0.21.0         seaborn==0.8.1         simplejson==3.10.0         requests==2.9.1         tensorflow-gpu==1.8.0         Pillow==5.2.0         tqdm==4.19.5         tornado==4.5.3         ipython==6.2.1         opencv-python==3.4.1.15         configparser==3.5.0
+ ---> Running in b6234decbfae
+[91mException:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.5/dist-packages/pip/_vendor/urllib3/response.py", line 331, in _error_catcher
+    yield
+  File "/usr/local/lib/python3.5/dist-packages/pip/_vendor/urllib3/response.py", line 413, in read
+    data = self._fp.read(amt)
+  File "/usr/lib/python3.5/http/client.py", line 448, in read
+    n = self.readinto(b)
+  File "/usr/lib/python3.5/http/client.py", line 488, in readinto
+    n = self.fp.readinto(b)
+  File "/usr/lib/python3.5/socket.py", line 575, in readinto
+    return self._sock.recv_into(b)
+  File "/usr/lib/python3.5/ssl.py", line 929, in recv_into
+    return self.read(nbytes, buffer)
+  File "/usr/lib/python3.5/ssl.py", line 791, in read
+    return self._sslobj.read(len, buffer)
+  File "/usr/lib/python3.5/ssl.py", line 575, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/cli/base_command.py", line 143, in main
+    status = self.run(options, args)
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/commands/install.py", line 318, in run
+    resolver.resolve(requirement_set)
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/resolve.py", line 102, in resolve
+    self._resolve_one(requirement_set, req)
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/resolve.py", line 256, in _resolve_one
+    abstract_dist = self._get_abstract_dist_for(req_to_install)
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/resolve.py", line 209, in _get_abstract_dist_for
+    self.require_hashes
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/operations/prepare.py", line 283, in prepare_linked_requirement
+    progress_bar=self.progress_bar
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/download.py", line 836, in unpack_url
+    progress_bar=progress_bar
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/download.py", line 673, in unpack_http_url
+    progress_bar)
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/download.py", line 897, in _download_http_url
+    _download_url(resp, link, content_file, hashes, progress_bar)
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/download.py", line 617, in _download_url
+    hashes.check_against_chunks(downloaded_chunks)
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/utils/hashes.py", line 48, in check_against_chunks
+    for chunk in chunks:
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/download.py", line 585, in written_chunks
+    for chunk in chunks:
+  File "/usr/local/lib/python3.5/dist-packages/pip/_internal/download.py", line 574, in resp_read
+    decode_content=False):
+  File "/usr/local/lib/python3.5/dist-packages/pip/_vendor/urllib3/response.py", line 465, in stream
+    data = self.read(amt=amt, decode_content=decode_content)
+  File "/usr/local/lib/python3.5/dist-packages/pip/_vendor/urllib3/response.py", line 430, in read
+    raise IncompleteRead(self._fp_bytes_read, self.length_remaining)
+  File "/usr/lib/python3.5/contextlib.py", line 77, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/usr/local/lib/python3.5/dist-packages/pip/_vendor/urllib3/response.py", line 336, in _error_catcher
+    raise ReadTimeoutError(self._pool, None, 'Read timed out.')
+pip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='pypi.doubanio.com', port=443): Read timed out.
+[0mThe command '/bin/sh -c pip3 --no-cache-dir -q install -i $DOUBAN_SOURCE          matplotlib==2.1.0         numpy==1.13.3         scipy==1.0.0         sklearn==0.0         pandas==0.21.0         seaborn==0.8.1         simplejson==3.10.0         requests==2.9.1         tensorflow-gpu==1.8.0         Pillow==5.2.0         tqdm==4.19.5         tornado==4.5.3         ipython==6.2.1         opencv-python==3.4.1.15         configparser==3.5.0' returned a non-zero code: 2
