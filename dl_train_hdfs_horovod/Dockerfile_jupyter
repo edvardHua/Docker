@@ -1,0 +1,11 @@
+FROM haicong-registry.huya.com/haicongpai/dl_train_hadoop_horovod:pack1
+
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+    && \
+    apt-get install -y nodejs
+RUN pip3 install jupyter notebook jupyterlab
+RUN jupyter labextension install jupyterlab_toastify
+RUN pip3 install jupyter_contrib_nbextensions && jupyter contrib nbextension install --user
+RUN pip3 install jupyter_nbextensions_configurator && jupyter nbextensions_configurator enable --user
+RUN pip3 uninstall -y ipython prompt_toolkit && pip3 install ipython prompt_toolkit
+COPY .jupyter /root/.jupyter
