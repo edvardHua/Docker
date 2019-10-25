@@ -1,24 +1,24 @@
-FROM tensorflow/tensorflow:latest-gpu
+FROM tensorflow/tensorflow:1.15.0-gpu-py3
 
 MAINTAINER zengzihua (edvard_hua@live.com)
 
 # pip source
 ENV DOUBAN_SOURCE="https://pypi.douban.com/simple"
-ENV CUDNN_VERSION=7.3.1.20-1+cuda9.0
-ENV TENSORFLOW_VERSION=1.11.0
+
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         libcurl3-dev \
         libfreetype6-dev \
-        libpng12-dev \
         libzmq3-dev \
-        libcudnn7=${CUDNN_VERSION} \
         pkg-config \
         python3 \
         python3-pip \
         zlib1g-dev \
         cython \
+        unzip \
+        zip \
         > /dev/null \
         && \
     apt-get clean && \
@@ -56,7 +56,6 @@ RUN pip3 install Cython==0.27.3
 COPY cocoapi /cocoapi/
 RUN cd /cocoapi/PythonAPI && python3 setup.py build_ext --inplace && python3 setup.py build_ext install
 
-RUN pip3 --no-cache-dir -q install -i $DOUBAN_SOURCE tensorflow-gpu==${TENSORFLOW_VERSION}
 
 # Clean
 RUN rm -rf /tmp/pip \
@@ -66,12 +65,16 @@ RUN apt-get install -y python-opencv
 
 COPY .config /root/.config/
 
-# Training default setting
-ENV SCRIPT_PATH="/workspace/src/train.py" \
-    BASE_PATH="/root" \
-    LOG_PATH="/log" \
-    PARAMETERS_FILE=""
+RUN apt update && apt-get install -yq curl
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+    && \
+    apt-get install -y nodejs
+RUN pip3 install --upgrade setuptools
+RUN pip3 install jupyter notebook jupyterlab
+RUN jupyter labextension install jupyterlab_toastify
+RUN pip3 install jupyter_contrib_nbextensions && jupyter contrib nbextension install --user
+RUN pip3 install jupyter_nbextensions_configurator && jupyter nbextensions_configurator enable --user
+RUN pip3 uninstall -y ipython prompt_toolkit && pip3 install ipython prompt_toolkit
+COPY .jupyter /root/.jupyter
 
-WORKDIR $BASE_PATH
-
-CMD cd $BASE_PATH && env DISPLAY=0.0 python3 $SCRIPT_PATH $PARAMETERS_FILE & tensorboard --logdir=$LOG_PATH
+WORKDIR /workspace
