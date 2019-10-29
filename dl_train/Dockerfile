@@ -28,7 +28,7 @@ RUN pip3 --no-cache-dir -q install -i $DOUBAN_SOURCE --upgrade pip setuptools
 
 RUN pip3 --no-cache-dir -q install -i $DOUBAN_SOURCE \
         matplotlib==2.1.0 \
-        numpy==1.13.3 \
+        numpy \
         scipy==1.0.0 \
         pandas==0.21.0 \
         seaborn==0.8.1 \
