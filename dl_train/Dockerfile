@@ -19,6 +19,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         cython \
         unzip \
         zip \
+        vim \
+        tree \
+        htop \
         > /dev/null \
         && \
     apt-get clean && \
@@ -70,8 +73,11 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
     && \
     apt-get install -y nodejs
 RUN pip3 install --upgrade setuptools
-RUN pip3 install jupyter notebook jupyterlab
-RUN jupyter labextension install jupyterlab_toastify
+# 15 extension in https://zhuanlan.zhihu.com/p/101070029
+RUN pip3 install jupyter notebook jupyterlab ipympl
+RUN jupyter labextension install jupyterlab_toastify @jupyterlab/github @jupyterlab/toc @mflevine/jupyterlab_html \
+    @jupyter-widgets/jupyterlab-manager jupyter-matplotlib @lckr/jupyterlab_variableinspector @krassowski/jupyterlab-lsp \
+    jupyterlab-spreadsheet @krassowski/jupyterlab_go_to_definition
 RUN pip3 install jupyter_contrib_nbextensions && jupyter contrib nbextension install --user
 RUN pip3 install jupyter_nbextensions_configurator && jupyter nbextensions_configurator enable --user
 RUN pip3 uninstall -y ipython prompt_toolkit && pip3 install ipython prompt_toolkit
