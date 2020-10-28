@@ -1,8 +1,10 @@
-FROM pytorch/pytorch:1.5-cuda10.1-cudnn7-runtime
+FROM pytorch/pytorch:1.4-cuda10.1-cudnn7-runtime
 
 ARG DEBIAN_FRONTEND=noninteractive
 
 # COPY sources.list /etc/apt
+COPY sources.list /etc/apt/
+
 COPY .oh-my-zsh /root/.oh-my-zsh
 
 RUN pip config set global.index-url https://mirrors.cloud.tencent.com/pypi/simple
@@ -20,7 +22,11 @@ RUN pip install jupyterlab \
                 opencv-python \
                 Pillow \
                 matplotlib \
-                porsche
+                porsche \
+                torchvision==0.5.0 \
+                easydict \
+                tensorflow==1.14.0 \
+                scipy==1.2.1
 
 RUN apt-get update && apt-get install -yq g++ 
 
